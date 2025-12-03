@@ -33,8 +33,8 @@ def cache_label_info(row):
             'label_category': row['label_category']
             }
     print(row['display_name_kor'])
-    #redis 저장. ensure_ascii=False를 통해 한국어가 깨지는것을 막음.
-    r.set(key, json.dumps(value, ensure_ascii=False))
+    #redis 저장. 만료시간을 설정해 사용자의 위치를 고려한 캐싱.
+    r.set(key, json.dumps(value, ensure_ascii=False), ex=3600)
     print(f"[CACHE] {key} → {value}")
 
     return value
